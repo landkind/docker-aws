@@ -2,6 +2,9 @@
 FROM cgswong/java:openjdk8
 MAINTAINER Stuart Wong <cgs.wong@gmail.com>
 
+FROM alpine:3.6
+RUN apk update
+
 ENV S3_TMP /tmp/s3cmd.zip
 ENV S3_ZIP /tmp/s3cmd-master
 ENV RDS_TMP /tmp/RDSCLi.zip
@@ -40,10 +43,10 @@ RUN apk --no-cache add \
     mv ${S3_ZIP}/S3 ${S3_ZIP}/s3cmd /usr/bin/ &&\
     mv /tmp/RDSCli-${RDS_VERSION} /usr/local/ &&\
     rm -rf /tmp/* &&\
-    mkdir ~/.aws &&\
-    chmod 700 ~/.aws
+    mkdir ./.aws &&\
+    chmod 700 ./.aws
 
 # Expose volume for adding credentials
-VOLUME ["~/.aws"]
+VOLUME ["/.aws"]
 
 CMD ["/bin/bash", "--login"]
